@@ -5,8 +5,8 @@ require __DIR__ . '/autoload.php';
 use App\Helper;
 
 //Реализация ЧПУ
-//из пути вида xxx/yyy/aaa-bbb
-//получается
+//путь вида xxx/yyy/aaa-bbb
+//преобразуется в
 //controller = Xxx\Yyy
 //action = AaaBbb
 $uri = $_SERVER['REQUEST_URI'];

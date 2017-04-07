@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Db;
+use App\Exceptions\NotFoundException;
 
 /**
  * Class Model
@@ -34,13 +35,17 @@ abstract class Model
      *
      * @param int $id
      * @return mixed
+     * @throws NotFoundException
      */
     public static function findById(int $id)
     {
         $db = Db::getInstance();
         $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE id = :id';
         $res = $db->query($sql, static::class, [':id' => $id]);
-        return ($res) ? $res[0] : false;
+        if (empty($res)) {
+            throw new NotFoundException('No record found with this id', 2);
+        }
+        return $res[0];
     }
 
 //    public static function findLast($count = 3)
