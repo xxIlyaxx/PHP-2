@@ -5,7 +5,7 @@ require __DIR__ . '/autoload.php';
 use App\Helper;
 
 //Реализация ЧПУ
-//из пути типа xxx/yyy/aaa-bbb
+//из пути вида xxx/yyy/aaa-bbb
 //получается
 //controller = Xxx\Yyy
 //action = AaaBbb
