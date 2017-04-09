@@ -3,6 +3,8 @@
 require __DIR__ . '/autoload.php';
 
 use App\Helper;
+use App\Controller;
+use App\Logger;
 
 //Реализация ЧПУ
 //путь вида xxx/yyy/aaa-bbb
@@ -23,10 +25,14 @@ $controllerName = implode('\\', $parts);
 
 $controllerClassName = 'App\Controllers\\' . ($controllerName ?: 'Index');
 if (!class_exists($controllerClassName)) {
-    header('HTTP/1.1 403 Forbidden', 403);
-    include __DIR__ . '/templates/forbidden.php';
-    exit();
+    Controller::ForbiddenError();
 }
 
-$controller = new $controllerClassName();
-$controller->action($action ?: 'Index');
+try {
+    $controller = new $controllerClassName();
+    $controller->action($action ?: 'Index');
+} catch (\App\Exceptions\DbException $e) {
+    Controller::dbError();
+} catch (\App\Exceptions\NotFoundException $e) {
+    Controller::notFoundError();
+}

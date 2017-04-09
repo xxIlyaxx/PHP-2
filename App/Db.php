@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Exceptions\DbException;
+use App\Logger;
 
 /**
  * Class Db
@@ -28,8 +29,10 @@ class Db
                 $config->data['db']['user'],
                 $config->data['db']['pass']
             );
+            $this->dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            $newExc = new DbException($e->getMessage(), 1);
+            $newExc = new DbException($e->getMessage(), $e->getCode());
+            Logger::getInstance()->log($newExc);
             throw $newExc;
         }
     }
@@ -45,13 +48,15 @@ class Db
      */
     public function query(string $sql, string $class, $params = [])
     {
-        $sth = $this->dbh->prepare($sql);
-        $res = $sth->execute($params);
-
-        if (false === $res) {
-            throw new DbException('Incorrect SQL query', 2);
+        try {
+            $sth = $this->dbh->prepare($sql);
+            $sth->execute($params);
+            return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+        } catch (\PDOException $e) {
+            $newExc = new DbException($e->getMessage(), $e->getCode());
+            Logger::getInstance()->log($newExc);
+            throw $newExc;
         }
-        return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
     }
 
     /**
@@ -64,13 +69,14 @@ class Db
      */
     public function execute($sql, $params = [])
     {
-        $sth = $this->dbh->prepare($sql);
-        $res = $sth->execute($params);
-
-        if (false === $res) {
-            throw new DbException('Incorrect SQL query', 2);
+        try {
+            $sth = $this->dbh->prepare($sql);
+            return $sth->execute($params);
+        } catch (\PDOException $e) {
+            $newExc = new DbException($e->getMessage(), $e->getCode());
+            Logger::getInstance()->log($newExc);
+            throw $newExc;
         }
-        return $res;
     }
 
     /**

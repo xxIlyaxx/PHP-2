@@ -1,0 +1,7 @@
+[2017-04-09 11:50:48] Error: F:\domains\php2.loc\App\Models\Model.php:L48 Not found record with this id
+[2017-04-09 11:50:48] Message: "Hello World!"
+[2017-04-09 11:56:10] Error: F:\domains\php2.loc\App\Db.php:L33 SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: No such host is known. 
+[2017-04-09 13:15:29] Error: F:\domains\php2.loc\App\Db.php:L76 SQLSTATE[42000]: Syntax error or access violation: 1065 Query was empty
+[2017-04-09 13:15:30] Error: F:\domains\php2.loc\App\Db.php:L76 SQLSTATE[42000]: Syntax error or access violation: 1065 Query was empty
+[2017-04-09 13:30:37] Error: F:\domains\php2.loc\App\Models\Model.php:L48 Not found record with this id
+[2017-04-09 13:30:37] Message: "Hello World!"
