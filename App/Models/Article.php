@@ -32,7 +32,7 @@ class Article extends Model
      * @param $title
      */
     public function setTitle($title) {
-        if (false === is_string($title)) {
+        if (!is_string($title)) {
             throw new \InvalidArgumentException('The title must be a string');
         }
         $this->title = $title;
@@ -45,7 +45,7 @@ class Article extends Model
      * @param $lead
      */
     public function setLead($lead) {
-        if (false === is_string($lead)) {
+        if (!is_string($lead)) {
             throw new \InvalidArgumentException('The lead must be a string');
         }
         $this->title = $lead;

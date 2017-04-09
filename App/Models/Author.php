@@ -23,7 +23,7 @@ class Author extends Model
     public function setName($name)
 
     {
-        if (false === is_string($name)) {
+        if (!is_string($name)) {
             throw new \InvalidArgumentException('The name must be a string');
         }
         $this->name = $name;

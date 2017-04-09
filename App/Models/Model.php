@@ -190,7 +190,7 @@ abstract class Model
      * @param $id
      */
     public function setId($id) {
-        if (is_numeric($id) && 0 <= $id) {
+        if (!is_numeric($id) && 0 > $id) {
             throw new \InvalidArgumentException('The id must be a number and greater than 0');
         }
         $this->id = (int)$id;
