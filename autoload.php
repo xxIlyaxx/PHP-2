@@ -2,5 +2,8 @@
 
 function __autoload($className)
 {
-    require __DIR__ . '/' . str_replace('\\', '/', $className) . '.php';
+    $fileName =  __DIR__ . '/' . str_replace('\\', '/', $className) . '.php';
+    if (file_exists($fileName)) {
+        require $fileName;
+    }
 }

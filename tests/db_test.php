@@ -2,7 +2,9 @@
 
 require __DIR__ . '/../autoload.php';
 
-$db = new Db();
+use App\Db;
+
+$db = Db::getInstance();
 $sql = 'INSERT INTO news (title, lead) VALUES (:title, :lead)';
 $params = [':title' => 'some title', ':lead' => 'some lead'];
 assert(true == $db->execute($sql, $params));

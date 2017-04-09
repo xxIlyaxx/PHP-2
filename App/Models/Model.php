@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Db;
+use App\Exceptions\NotFoundException;
+use App\Exceptions\Errors;
+use App\Logger;
 
 /**
  * Class Model
@@ -34,13 +37,19 @@ abstract class Model
      *
      * @param int $id
      * @return mixed
+     * @throws NotFoundException
      */
-    public static function findById($id)
+    public static function findById(int $id)
     {
         $db = Db::getInstance();
         $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE id = :id';
         $res = $db->query($sql, static::class, [':id' => $id]);
-        return ($res) ? $res[0] : false;
+        if (empty($res)) {
+            $e = new NotFoundException('Not found record with given id', 1);
+            Logger::getInstance()->log($e);
+            throw $e;
+        }
+        return $res[0];
     }
 
 //    public static function findLast($count = 3)
@@ -54,7 +63,7 @@ abstract class Model
      * @param int $count
      * @return array
      */
-    public static function findLast($count = 3)
+    public static function findLast(int $count = 3)
     {
         $articles = static::findAll();
         return array_slice(array_reverse($articles), 0, $count);
@@ -147,5 +156,43 @@ abstract class Model
         } else {
             return $this->update();
         }
+    }
+
+    /**
+     * Заполняет свойства текущей
+     * модели данными из массива $data
+     *
+     * @param array $data
+     * @throws Errors
+     */
+    public function fill(array $data)
+    {
+        $errors = new Errors();
+
+        foreach ($data as $key => $value) {
+            try {
+                $method = 'set' . ucfirst($key);
+                $this->$method($value);
+            } catch (\Exception $e) {
+                $errors->add($e);
+            }
+        }
+
+        if (!empty($errors->getErrors())) {
+            throw $errors;
+        }
+    }
+
+    /**
+     * Устанавливает свойство ID
+     * у текущей модели
+     *
+     * @param $id
+     */
+    public function setId($id) {
+        if (!is_numeric($id) && 0 > $id) {
+            throw new \InvalidArgumentException('The id must be a number and greater than 0');
+        }
+        $this->id = (int)$id;
     }
 }

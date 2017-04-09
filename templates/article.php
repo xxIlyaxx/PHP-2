@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo $this->article->title; ?></title>
+    <title><?php echo $article->title; ?></title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -10,12 +10,12 @@
 </head>
 <body>
 <div class="container">
-    <p><a href="/">Главная страница</a></p>
+    <p><a href="/index">Главная страница</a></p>
     <div class="page-header">
-        <h1><?php echo $this->article->title; ?></h1>
-        <p><?php echo (null !== $this->article->author) ? 'Автор: ' . $this->article->author->name : 'Неизвестный автор'; ?></p>
+        <h1><?php echo $article->title; ?></h1>
+        <p><?php echo (null !== $article->author) ? 'Автор: ' . $article->author->name : 'Неизвестный автор'; ?></p>
     </div>
-    <p><?php echo $this->article->lead; ?></p>
+    <p><?php echo $article->lead; ?></p>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="

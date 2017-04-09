@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Exceptions\DbException;
+use App\Logger;
+
 /**
  * Class Db
  * Класс базы данных
@@ -20,11 +23,18 @@ class Db
 
         $dsn = 'mysql:host=' . $config->data['db']['host'] .
             ';dbname=' . $config->data['db']['dbname'];
-        $this->dbh = new \PDO(
-            $dsn,
-            $config->data['db']['user'],
-            $config->data['db']['pass']
-        );
+        try {
+            $this->dbh = new \PDO(
+                $dsn,
+                $config->data['db']['user'],
+                $config->data['db']['pass']
+            );
+            $this->dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch (\PDOException $e) {
+            $newExc = new DbException($e->getMessage(), $e->getCode());
+            Logger::getInstance()->log($newExc);
+            throw $newExc;
+        }
     }
 
     /**
@@ -33,16 +43,20 @@ class Db
      * @param string $sql
      * @param string $class
      * @param array $params
-     * @return array|bool
+     * @return array
+     * @throws DbException
      */
     public function query(string $sql, string $class, $params = [])
     {
-        $sth = $this->dbh->prepare($sql);
-        $res = $sth->execute($params);
-        if (!$res) {
-            return false;
+        try {
+            $sth = $this->dbh->prepare($sql);
+            $sth->execute($params);
+            return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+        } catch (\PDOException $e) {
+            $newExc = new DbException($e->getMessage(), $e->getCode());
+            Logger::getInstance()->log($newExc);
+            throw $newExc;
         }
-        return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
     }
 
     /**
@@ -51,11 +65,18 @@ class Db
      * @param string $sql
      * @param array $params
      * @return bool
+     * @throws DbException
      */
     public function execute($sql, $params = [])
     {
-        $sth = $this->dbh->prepare($sql);
-        return $sth->execute($params);
+        try {
+            $sth = $this->dbh->prepare($sql);
+            return $sth->execute($params);
+        } catch (\PDOException $e) {
+            $newExc = new DbException($e->getMessage(), $e->getCode());
+            Logger::getInstance()->log($newExc);
+            throw $newExc;
+        }
     }
 
     /**

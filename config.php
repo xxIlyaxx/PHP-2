@@ -7,4 +7,7 @@ return [
         'user' => 'root',
         'pass' => '',
     ],
+    'log' => [
+        'fileName' => __DIR__ . '/errors.log',
+    ],
 ];

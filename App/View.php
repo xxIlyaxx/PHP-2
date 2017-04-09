@@ -20,6 +20,9 @@ class View implements \Countable, \Iterator
      */
     public function render(string $template)
     {
+        foreach ($this as $name => $value) {
+            $$name = $value;
+        }
         ob_start();
         include $template;
         return ob_get_clean();

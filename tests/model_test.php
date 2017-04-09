@@ -2,6 +2,7 @@
 
 require __DIR__ . '/../autoload.php';
 
+use App\Models\Article;
 
 //Test Article::findAll()
 assert(Article::findAll()[0] instanceof Article);

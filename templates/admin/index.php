@@ -11,17 +11,17 @@
 <body>
 <div class="container">
     <h1>Админ-панель</h1>
-    <a href="/">Главная страница</a>
+    <a href="/index">Главная страница</a>
     <br>
-    <a href="/admin/add_article.php">Добавить статью</a>
+    <a href="/admin/add-article">Добавить статью</a>
     <hr>
-    <?php foreach ($this->articles as $article): ?>
+    <?php foreach ($articles as $article): ?>
         <div>
             <h2><?php echo $article->title; ?></h2>
             <p><?php echo $article->lead; ?></p>
             <p><?php echo (null !== $article->author) ? 'Автор: ' . $article->author->name : 'Неизвестный автор'; ?></p>
-            <a href="/admin/delete_article.php?id=<?php echo $article->id; ?>" class="btn btn-danger">Удалить</a>
-            <a href="/admin/update_article.php?id=<?php echo $article->id; ?>" class="btn btn-primary">Редактировать</a>
+            <a href="/admin/delete-article/?id=<?php echo $article->id; ?>" class="btn btn-danger">Удалить</a>
+            <a href="/admin/update-article/?id=<?php echo $article->id; ?>" class="btn btn-primary">Редактировать</a>
             <hr>
         </div>
     <?php endforeach; ?>
