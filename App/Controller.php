@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Exceptions\ForbiddenException;
+
 /**
  * Class Controller
  * Базовый класс контроллера
@@ -20,12 +22,11 @@ abstract class Controller
     /**
      * Метод - валидатор
      *
-     * @param string $action
      * @return bool
      */
-    protected function access(string $action)
+    protected function access()
     {
-        return method_exists($this, $action);
+        return true;
     }
 
     /**
@@ -33,12 +34,12 @@ abstract class Controller
      * и выполняет его
      *
      * @param string $name
+     * @throws ForbiddenException
      */
     public function action(string $name)
     {
-        $name = 'action' . $name;
         if (false === $this->access($name)) {
-            static::forbiddenError();
+            throw new ForbiddenException();
         }
         $this->$name();
     }
