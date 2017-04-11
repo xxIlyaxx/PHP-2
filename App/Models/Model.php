@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Db;
-use App\Exceptions\NotFoundException;
 use App\Exceptions\Errors;
 use App\GetSet;
+use App\TraitIterator;
 
 /**
  * Class Model
@@ -14,9 +14,10 @@ use App\GetSet;
  * @package App\Models
  * @property string id
  */
-abstract class Model
+abstract class Model implements \Iterator
 {
     use GetSet;
+    use TraitIterator;
 
     protected const TABLE = null;
 
@@ -80,7 +81,7 @@ abstract class Model
         $params = [];
         $data = [];
 
-        foreach ($this->data as $key => $value) {
+        foreach ($this as $key => $value) {
             if ($key == 'id') {
                 continue;
             }
@@ -111,7 +112,7 @@ abstract class Model
         $params = [];
         $sqlParams = [];
 
-        foreach ($this->data as $key => $value) {
+        foreach ($this as $key => $value) {
             $params[':' . $key] = $value;
             if ($key == 'id') {
                 continue;
