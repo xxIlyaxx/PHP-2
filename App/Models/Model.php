@@ -5,18 +5,20 @@ namespace App\Models;
 use App\Db;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\Errors;
-use App\Logger;
+use App\GetSet;
 
 /**
  * Class Model
  * Класс модели
  *
  * @package App\Models
+ * @property string id
  */
 abstract class Model
 {
+    use GetSet;
+
     protected const TABLE = null;
-    public $id = null;
 
     /**
      * Находит и возвращает все модели
@@ -44,12 +46,7 @@ abstract class Model
         $db = Db::getInstance();
         $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE id = :id';
         $res = $db->query($sql, static::class, [':id' => $id]);
-        if (empty($res)) {
-            $e = new NotFoundException('Not found record with given id', 1);
-            Logger::getInstance()->log($e);
-            throw $e;
-        }
-        return $res[0];
+        return (empty($res)) ? false : $res[0];
     }
 
 //    public static function findLast($count = 3)
@@ -78,13 +75,12 @@ abstract class Model
     public function insert()
     {
         $db = Db::getInstance();
-        $vars = get_object_vars($this);
 
         $columns = [];
         $params = [];
         $data = [];
 
-        foreach ($vars as $key => $value) {
+        foreach ($this->data as $key => $value) {
             if ($key == 'id') {
                 continue;
             }
@@ -111,12 +107,11 @@ abstract class Model
     public function update()
     {
         $db = Db::getInstance();
-        $vars = get_object_vars($this);
 
         $params = [];
         $sqlParams = [];
 
-        foreach ($vars as $key => $value) {
+        foreach ($this->data as $key => $value) {
             $params[':' . $key] = $value;
             if ($key == 'id') {
                 continue;

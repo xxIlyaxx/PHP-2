@@ -8,21 +8,24 @@ namespace App\Models;
  *
  * @package App\Models
  *
+ *
+ * @property string title
+ * @property string lead
+ * @property string author_id
  * @property Author $author
  */
 class Article extends Model
 {
     protected const TABLE = 'news';
 
-    public $title;
-    public $lead;
-    public $author_id;
-
     public function __get($name)
     {
-        if ('author' === $name && null !== $this->author_id) {
-            return Author::findById($this->author_id);
+        if ('author' === $name && null !== $this->data['author_id']) {
+            if (!isset($this->data['author'])) {
+                $this->data['author'] = Author::findById($this->data['author_id']);
+            }
         }
+        return $this->data[$name];
     }
 
     /**
