@@ -29,32 +29,6 @@ class Article extends Model
     }
 
     /**
-     * Устанавливает cвойство title
-     * у данной модели
-     *
-     * @param $title
-     */
-    public function setTitle($title) {
-        if (!is_string($title)) {
-            throw new \InvalidArgumentException('The title must be a string');
-        }
-        $this->title = $title;
-    }
-
-    /**
-     * Устанавливает cвойство lead
-     * у данной модели
-     *
-     * @param $lead
-     */
-    public function setLead($lead) {
-        if (!is_string($lead)) {
-            throw new \InvalidArgumentException('The lead must be a string');
-        }
-        $this->title = $lead;
-    }
-
-    /**
      * Устанавливает cвойство author_id
      * у данной модели
      *

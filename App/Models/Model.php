@@ -167,10 +167,6 @@ abstract class Model implements \Iterator
 
         foreach ($data as $key => $value) {
             try {
-                $method = 'set' . ucfirst($key);
-                if (method_exists($this, $method)) {
-                    $this->$method($value);
-                }
                 $this->$key = $value;
             } catch (\Exception $e) {
                 $errors->add($e);
@@ -179,6 +175,15 @@ abstract class Model implements \Iterator
 
         if (!empty($errors->getErrors())) {
             throw $errors;
+        }
+    }
+
+    public function __set($key, $value) {
+        $method = 'set' . ucfirst($key);
+        if (method_exists($this, $method)) {
+            $this->$method($value);
+        } else {
+            $this->data[$key] = $value;
         }
     }
 
@@ -192,6 +197,6 @@ abstract class Model implements \Iterator
         if (!is_numeric($id) && 0 > $id) {
             throw new \InvalidArgumentException('The id must be a number and greater than 0');
         }
-        $this->id = (int)$id;
+        $this->data['id'] = (int)$id;
     }
 }
