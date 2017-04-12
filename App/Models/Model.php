@@ -168,7 +168,10 @@ abstract class Model implements \Iterator
         foreach ($data as $key => $value) {
             try {
                 $method = 'set' . ucfirst($key);
-                $this->$method($value);
+                if (method_exists($this, $method)) {
+                    $this->$method($value);
+                }
+                $this->$key = $value;
             } catch (\Exception $e) {
                 $errors->add($e);
             }
