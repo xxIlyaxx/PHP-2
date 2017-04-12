@@ -38,7 +38,21 @@ class Article extends Model
         if (!is_numeric($id) && 0 > $id) {
             throw new \InvalidArgumentException('The author_id must be a number and greater than 0');
         }
-        $this->data['author_id'] = (int)$id;
+        $this->data['author_id'] = $id;
+    }
+
+    /**
+     * Устанавливает свойство author
+     * у данной модели
+     *
+     * @param $author
+     */
+    public function setAuthor($author)
+    {
+        if (!($author instanceof Author)) {
+            throw new \InvalidArgumentException('The author must be an Author type');
+        }
+        $this->data['author'] = $author;
     }
 
 }

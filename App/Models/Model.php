@@ -197,6 +197,6 @@ abstract class Model implements \Iterator
         if (!is_numeric($id) && 0 > $id) {
             throw new \InvalidArgumentException('The id must be a number and greater than 0');
         }
-        $this->data['id'] = (int)$id;
+        $this->data['id'] = $id;
     }
 }
