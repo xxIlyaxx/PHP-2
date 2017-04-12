@@ -38,7 +38,7 @@ class Article extends Model
         if (!is_numeric($id) && 0 > $id) {
             throw new \InvalidArgumentException('The author_id must be a number and greater than 0');
         }
-        $this->author_id = (int)$id;
+        $this->data['author_id'] = (int)$id;
     }
 
 }
