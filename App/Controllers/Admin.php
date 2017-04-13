@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use App\Controller;
 use App\Models\Article;
+use App\Logger;
+use App\Exceptions\NotFoundException;
+
 
 /**
  * Class Admin
@@ -54,6 +57,11 @@ class Admin extends Controller
     protected function actionDeleteArticle()
     {
         $article = Article::findById($_GET['id'] ?? null);
+        if (false === $article) {
+            $e = new NotFoundException('Not found record with given id', 2);
+            Logger::getInstance()->log($e);
+            throw $e;
+        }
         if (true === $article->delete()) {
             header('Location: /admin/index');
         }
@@ -69,6 +77,11 @@ class Admin extends Controller
             $this->view->id = (int)$_GET['id'];
 
             $article = Article::findById($this->view->id);
+            if (false === $article) {
+                $e = new NotFoundException('Not found record with given id', 2);
+                Logger::getInstance()->log($e);
+                throw $e;
+            }
             $this->view->title = $article->title;
             $this->view->lead = $article->lead;
             $this->view->authorName = (null !== $article->author) ? 'Автор: ' . $article->author->name : 'Неизвестный автор';
@@ -81,6 +94,11 @@ class Admin extends Controller
         }
 
         $article = Article::findById($_POST['id'] ?? null);
+        if (false === $article) {
+            $e = new NotFoundException('Not found record with given id', 2);
+            Logger::getInstance()->log($e);
+            throw $e;
+        }
         $article->title = $_POST['title'] ?? null;
         $article->lead = $_POST['lead'] ?? null;
 

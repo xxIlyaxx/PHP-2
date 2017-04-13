@@ -3,20 +3,23 @@
 namespace App\Models;
 
 use App\Db;
-use App\Exceptions\NotFoundException;
 use App\Exceptions\Errors;
-use App\Logger;
+use App\GetSet;
+use App\TraitIterator;
 
 /**
  * Class Model
  * Класс модели
  *
  * @package App\Models
+ * @property string id
  */
-abstract class Model
+abstract class Model implements \Iterator
 {
+    use GetSet;
+    use TraitIterator;
+
     protected const TABLE = null;
-    public $id = null;
 
     /**
      * Находит и возвращает все модели
@@ -44,12 +47,7 @@ abstract class Model
         $db = Db::getInstance();
         $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE id = :id';
         $res = $db->query($sql, static::class, [':id' => $id]);
-        if (empty($res)) {
-            $e = new NotFoundException('Not found record with given id', 1);
-            Logger::getInstance()->log($e);
-            throw $e;
-        }
-        return $res[0];
+        return (empty($res)) ? false : $res[0];
     }
 
 //    public static function findLast($count = 3)
@@ -78,13 +76,12 @@ abstract class Model
     public function insert()
     {
         $db = Db::getInstance();
-        $vars = get_object_vars($this);
 
         $columns = [];
         $params = [];
         $data = [];
 
-        foreach ($vars as $key => $value) {
+        foreach ($this as $key => $value) {
             if ($key == 'id') {
                 continue;
             }
@@ -111,12 +108,11 @@ abstract class Model
     public function update()
     {
         $db = Db::getInstance();
-        $vars = get_object_vars($this);
 
         $params = [];
         $sqlParams = [];
 
-        foreach ($vars as $key => $value) {
+        foreach ($this as $key => $value) {
             $params[':' . $key] = $value;
             if ($key == 'id') {
                 continue;
@@ -171,8 +167,7 @@ abstract class Model
 
         foreach ($data as $key => $value) {
             try {
-                $method = 'set' . ucfirst($key);
-                $this->$method($value);
+                $this->$key = $value;
             } catch (\Exception $e) {
                 $errors->add($e);
             }
@@ -180,6 +175,15 @@ abstract class Model
 
         if (!empty($errors->getErrors())) {
             throw $errors;
+        }
+    }
+
+    public function __set($key, $value) {
+        $method = 'set' . ucfirst($key);
+        if (method_exists($this, $method)) {
+            $this->$method($value);
+        } else {
+            $this->data[$key] = $value;
         }
     }
 
@@ -193,6 +197,6 @@ abstract class Model
         if (!is_numeric($id) && 0 > $id) {
             throw new \InvalidArgumentException('The id must be a number and greater than 0');
         }
-        $this->id = (int)$id;
+        $this->data['id'] = $id;
     }
 }

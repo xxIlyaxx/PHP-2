@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Controller;
 use App\Models\Article;
+use App\Exceptions\NotFoundException;
+use App\Logger;
 
 /**
  * Class Index
@@ -28,6 +30,11 @@ class Index extends Controller
     protected function actionOne()
     {
         $this->view->article = Article::findById($_GET['id'] ?? null);
+        if (false === $this->view->article) {
+            $e = new NotFoundException('Not found record with given id', 2);
+            Logger::getInstance()->log($e);
+            throw $e;
+        }
         $this->view->display(__DIR__ . '/../../templates/article.php');
     }
 }

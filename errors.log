@@ -1,0 +1,7 @@
+[2017-04-11 18:37:51] Error: F:\domains\php2.loc\App\Controllers\Index.php:L39 Not found record with given id
+[2017-04-11 18:39:39] Error: F:\domains\php2.loc\App\Controllers\Index.php:L39 Not found record with given id
+[2017-04-11 19:29:50] Error: F:\domains\php2.loc\App\Controllers\Index.php:L34 Not found record with given id
+[2017-04-11 19:29:52] Error: F:\domains\php2.loc\App\Controllers\Index.php:L34 Not found record with given id
+[2017-04-11 19:30:15] Error: F:\domains\php2.loc\App\Db.php:L76 SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data' in 'field list'
+[2017-04-12 16:42:19] Error: F:\domains\php2.loc\App\Controllers\Index.php:L34 Not found record with given id
+[2017-04-12 16:42:22] Error: F:\domains\php2.loc\App\Controllers\Index.php:L34 Not found record with given id

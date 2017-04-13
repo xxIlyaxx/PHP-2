@@ -1,6 +1,7 @@
 <?php
 
 require __DIR__ . '/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 use App\Controller;
 use App\Router;

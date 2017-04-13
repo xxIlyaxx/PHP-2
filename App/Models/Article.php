@@ -8,47 +8,24 @@ namespace App\Models;
  *
  * @package App\Models
  *
+ *
+ * @property string title
+ * @property string lead
+ * @property string author_id
  * @property Author $author
  */
 class Article extends Model
 {
     protected const TABLE = 'news';
 
-    public $title;
-    public $lead;
-    public $author_id;
-
     public function __get($name)
     {
-        if ('author' === $name && null !== $this->author_id) {
-            return Author::findById($this->author_id);
+        if ('author' === $name && null !== $this->data['author_id']) {
+            if (!isset($this->data['author'])) {
+                $this->data['author'] = Author::findById($this->data['author_id']);
+            }
         }
-    }
-
-    /**
-     * Устанавливает cвойство title
-     * у данной модели
-     *
-     * @param $title
-     */
-    public function setTitle($title) {
-        if (!is_string($title)) {
-            throw new \InvalidArgumentException('The title must be a string');
-        }
-        $this->title = $title;
-    }
-
-    /**
-     * Устанавливает cвойство lead
-     * у данной модели
-     *
-     * @param $lead
-     */
-    public function setLead($lead) {
-        if (!is_string($lead)) {
-            throw new \InvalidArgumentException('The lead must be a string');
-        }
-        $this->title = $lead;
+        return $this->data[$name];
     }
 
     /**
@@ -61,7 +38,21 @@ class Article extends Model
         if (!is_numeric($id) && 0 > $id) {
             throw new \InvalidArgumentException('The author_id must be a number and greater than 0');
         }
-        $this->author_id = (int)$id;
+        $this->data['author_id'] = $id;
+    }
+
+    /**
+     * Устанавливает свойство author
+     * у данной модели
+     *
+     * @param $author
+     */
+    public function setAuthor($author)
+    {
+        if (!($author instanceof Author)) {
+            throw new \InvalidArgumentException('The author must be an Author type');
+        }
+        $this->data['author'] = $author;
     }
 
 }
