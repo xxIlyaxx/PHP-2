@@ -29,12 +29,13 @@ class Index extends Controller
      */
     protected function actionOne()
     {
-        $this->view->article = Article::findById($_GET['id'] ?? null);
-        if (false === $this->view->article) {
+        $article = Article::findById($_GET['id'] ?? null);
+        if (false === $article) {
             $e = new NotFoundException('Not found record with given id', 2);
             Logger::getInstance()->log($e);
             throw $e;
         }
+        $this->view->article = $article;
         $this->view->display(__DIR__ . '/../../templates/article.php');
     }
 }
