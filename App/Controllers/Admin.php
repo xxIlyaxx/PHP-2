@@ -59,7 +59,7 @@ class Admin extends Controller
         $article = Article::findById($_GET['id'] ?? null);
         if (false === $article) {
             $e = new NotFoundException('Not found record with given id', 2);
-            Logger::getInstance()->log($e);
+            Logger::getInstance()->error((string)$e);
             throw $e;
         }
         if (true === $article->delete()) {
@@ -79,7 +79,7 @@ class Admin extends Controller
             $article = Article::findById($this->view->id);
             if (false === $article) {
                 $e = new NotFoundException('Not found record with given id', 2);
-                Logger::getInstance()->log($e);
+                Logger::getInstance()->error((string)$e);
                 throw $e;
             }
             $this->view->title = $article->title;
@@ -96,7 +96,7 @@ class Admin extends Controller
         $article = Article::findById($_POST['id'] ?? null);
         if (false === $article) {
             $e = new NotFoundException('Not found record with given id', 2);
-            Logger::getInstance()->log($e);
+            Logger::getInstance()->error((string)$e);
             throw $e;
         }
         $article->title = $_POST['title'] ?? null;

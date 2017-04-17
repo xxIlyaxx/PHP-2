@@ -2,6 +2,7 @@
 
 namespace App;
 
+
 /**
  * Class View
  * Класс представления

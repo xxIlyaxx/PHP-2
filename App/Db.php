@@ -32,7 +32,7 @@ class Db
             $this->dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
             $newExc = new DbException($e->getMessage(), $e->getCode());
-            Logger::getInstance()->log($newExc);
+            Logger::getInstance()->error((string)$newExc);
             throw $newExc;
         }
     }
@@ -54,7 +54,7 @@ class Db
             return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
         } catch (\PDOException $e) {
             $newExc = new DbException($e->getMessage(), $e->getCode());
-            Logger::getInstance()->log($newExc);
+            Logger::getInstance()->error((string)$newExc);
             throw $newExc;
         }
     }
@@ -74,7 +74,7 @@ class Db
             return $sth->execute($params);
         } catch (\PDOException $e) {
             $newExc = new DbException($e->getMessage(), $e->getCode());
-            Logger::getInstance()->log($newExc);
+            Logger::getInstance()->error((string)$newExc);
             throw $newExc;
         }
     }

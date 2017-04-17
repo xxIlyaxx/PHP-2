@@ -32,7 +32,7 @@ class Index extends Controller
         $this->view->article = Article::findById($_GET['id'] ?? null);
         if (false === $this->view->article) {
             $e = new NotFoundException('Not found record with given id', 2);
-            Logger::getInstance()->log($e);
+            Logger::getInstance()->error((string)$e);
             throw $e;
         }
         $this->view->display(__DIR__ . '/../../templates/article.php');

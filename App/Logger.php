@@ -2,13 +2,15 @@
 
 namespace App;
 
+use Psr\Log\AbstractLogger;
+
 /**
  * Class Logger
  * Класс - логгер
  *
  * @package App
  */
-class Logger
+class Logger extends AbstractLogger
 {
     use Singleton;
 
@@ -24,18 +26,16 @@ class Logger
      * Записывает строку или данные
      * об объекте исключения в лог-файл
      *
-     * @param string|\Exception $data
+     * @param mixed $level
+     * @param string $message
+     * @param array $context
      */
-    public function log($data)
+    public function log($level, $message, array $context = [])
     {
         $log = '[' . date('Y-m-d H:i:s', time()) . '] ';
-        if (is_string($data)) {
-            $log .= 'Message: "' . $data . '"' . PHP_EOL;
-        } else if ($data instanceof \Exception) {
-            $log .= 'Error: ' . $data->getFile() . ':L' . $data->getLine() .
-                ' ' . $data->getMessage() . PHP_EOL;
-        } else {
-            return;
+        $log .= ucfirst($level) . ': ' . $message . PHP_EOL;
+        foreach ($context as $item) {
+            $log .= (string)$item . PHP_EOL;
         }
         fwrite($this->fp, $log);
     }
