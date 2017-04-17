@@ -35,7 +35,7 @@ class Article extends Model
      * @param $id
      */
     public function setAuthor_id($id) {
-        if (!is_numeric($id) && 0 > $id) {
+        if (!is_numeric($id) || 0 >= $id) {
             throw new \InvalidArgumentException('The author_id must be a number and greater than 0');
         }
         $this->data['author_id'] = $id;
