@@ -46,12 +46,36 @@ class Db
      * @return array
      * @throws DbException
      */
-    public function query(string $sql, string $class, $params = [])
+    public function query(string $sql, string $class = \stdClass::class, $params = [])
     {
         try {
             $sth = $this->dbh->prepare($sql);
             $sth->execute($params);
             return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+        } catch (\PDOException $e) {
+            $newExc = new DbException($e->getMessage(), $e->getCode());
+            Logger::getInstance()->error((string)$newExc);
+            throw $newExc;
+        }
+    }
+
+    /**
+     * @param string $sql
+     * @param string $class
+     * @param array $params
+     * @return \Generator
+     * @throws DbException
+     * @internal param string $class
+     */
+    public function queryEach(string $sql, string $class = \stdClass::class, $params = [])
+    {
+        try {
+            $sth = $this->dbh->prepare($sql);
+            $sth->execute($params);
+            $sth->setFetchMode(\PDO::FETCH_CLASS, $class);
+            while ($row = $sth->fetch()) {
+                yield $row;
+            }
         } catch (\PDOException $e) {
             $newExc = new DbException($e->getMessage(), $e->getCode());
             Logger::getInstance()->error((string)$newExc);

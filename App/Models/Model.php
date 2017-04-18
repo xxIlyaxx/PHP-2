@@ -34,6 +34,13 @@ abstract class Model implements \Iterator
         return $db->query($sql, static::class);
     }
 
+    public static function getGen()
+    {
+        $db = Db::getInstance();
+        $sql = 'SELECT * FROM ' . static::TABLE;
+        return $db->queryEach($sql, static::class);
+    }
+
     /**
      * Находит модель из текущей таблицы
      * по ее ID
@@ -50,22 +57,26 @@ abstract class Model implements \Iterator
         return (empty($res)) ? false : $res[0];
     }
 
-//    public static function findLast($count = 3)
-//    {
-//        $db = new Db();
-//        $sql = 'SELECT * FROM ' . static::TABLE . ' ORDER BY id DESC LIMIT ' . (int)$count;
-//        return $db->query($sql, static::class);
-//    }
-
     /**
      * @param int $count
      * @return array
      */
-    public static function findLast(int $count = 3)
+    public static function findLast($count = 3)
     {
-        $articles = static::findAll();
-        return array_slice(array_reverse($articles), 0, $count);
+        $db = Db::getInstance();
+        $sql = 'SELECT * FROM ' . static::TABLE . ' ORDER BY id DESC LIMIT ' . (int)$count;
+        return $db->query($sql, static::class);
     }
+
+//    /**
+//     * @param int $count
+//     * @return array
+//     */
+//    public static function findLast(int $count = 3)
+//    {
+//        $articles = static::findAll();
+//        return array_slice(array_reverse($articles), 0, $count);
+//    }
 
     /**
      * Создает запись текущей модели
@@ -194,7 +205,7 @@ abstract class Model implements \Iterator
      * @param $id
      */
     public function setId($id) {
-        if (!is_numeric($id) || 0 >= $id) {
+        if (!is_numeric($id) || 0 > $id) {
             throw new \InvalidArgumentException('The id must be a number and greater than 0');
         }
         $this->data['id'] = $id;

@@ -15,16 +15,17 @@
     <br>
     <a href="/admin/add-article">Добавить статью</a>
     <hr>
-    <?php foreach ($articles as $article): ?>
-        <div>
-            <h2><?php echo $article->title; ?></h2>
-            <p><?php echo $article->lead; ?></p>
-            <p><?php echo (null !== $article->author) ? 'Автор: ' . $article->author->name : 'Неизвестный автор'; ?></p>
-            <a href="/admin/delete-article/?id=<?php echo $article->id; ?>" class="btn btn-danger">Удалить</a>
-            <a href="/admin/update-article/?id=<?php echo $article->id; ?>" class="btn btn-primary">Редактировать</a>
-            <hr>
-        </div>
-    <?php endforeach; ?>
+    <?php echo $dataTable->render(); ?>
+<!--    --><?php //foreach ($articles as $article): ?>
+<!--        <div>-->
+<!--            <h2>--><?php //echo $article->title; ?><!--</h2>-->
+<!--            <p>--><?php //echo $article->lead; ?><!--</p>-->
+<!--            <p>--><?php //echo (null !== $article->author) ? 'Автор: ' . $article->author->name : 'Неизвестный автор'; ?><!--</p>-->
+<!--            <a href="/admin/delete-article/?id=--><?php //echo $article->id; ?><!--" class="btn btn-danger">Удалить</a>-->
+<!--            <a href="/admin/update-article/?id=--><?php //echo $article->id; ?><!--" class="btn btn-primary">Редактировать</a>-->
+<!--            <hr>-->
+<!--        </div>-->
+<!--    --><?php //endforeach; ?>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
