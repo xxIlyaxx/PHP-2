@@ -2,6 +2,14 @@
 
 namespace App\Widgets;
 
+/**
+ * Class AdminDataTable
+ *
+ * Используется в App\Controllers\Admin
+ * в методе actionIndex
+ *
+ * @package App\Widgets
+ */
 class AdminDataTable
 {
     public $rows;

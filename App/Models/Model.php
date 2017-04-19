@@ -29,12 +29,22 @@ abstract class Model implements \Iterator
      */
     public static function findAll()
     {
-        $db = Db::getInstance();
-        $sql = 'SELECT * FROM ' . static::TABLE;
-        return $db->query($sql, static::class);
+//        $db = Db::getInstance();
+//        $sql = 'SELECT * FROM ' . static::TABLE;
+        $res = [];
+        foreach (static::findAllGen() as $value) {
+            $res[] = $value;
+        }
+        return $res;
     }
 
-    public static function getGen()
+    /**
+     * Находит и возвращает все модели
+     * из текущей модели в виде генератора
+     *
+     * @return mixed
+     */
+    public static function findAllGen()
     {
         $db = Db::getInstance();
         $sql = 'SELECT * FROM ' . static::TABLE;

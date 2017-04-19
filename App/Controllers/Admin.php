@@ -22,8 +22,9 @@ class Admin extends Controller
      */
     protected function actionIndex()
     {
-        $this->view->dataTable = new AdminDataTable(
-            Article::findAll(),
+        $this->view->articles = Article::findAll();
+        $this->view->dataTableWidget = new AdminDataTable(
+            $this->view->articles,
             require __DIR__ . '/../Widgets/admin_data_table/functions.php'
         );
         $this->view->display(__DIR__ . '/../../templates/admin/index.php');

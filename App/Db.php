@@ -60,6 +60,10 @@ class Db
     }
 
     /**
+     * Выполняет запрос и возвращает запрос в виде генератора
+     *
+     * Используется в абстрактной модели в методе findAll и findAllGen
+     *
      * @param string $sql
      * @param string $class
      * @param array $params

@@ -15,7 +15,7 @@
     <br>
     <a href="/admin/add-article">Добавить статью</a>
     <hr>
-    <?php echo $dataTable->render(); ?>
+    <?php echo $dataTableWidget->render(); ?>
 <!--    --><?php //foreach ($articles as $article): ?>
 <!--        <div>-->
 <!--            <h2>--><?php //echo $article->title; ?><!--</h2>-->
