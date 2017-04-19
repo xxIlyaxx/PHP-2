@@ -15,7 +15,10 @@
     <br>
     <a href="/admin/add-article">Добавить статью</a>
     <hr>
-    <?php echo $dataTableWidget->render(); ?>
+    <?php echo (new \App\Widgets\AdminDataTable(
+            $articles,
+            require __DIR__ . '/../../App/Widgets/admin_data_table/functions.php'))->render();
+    ?>
 <!--    --><?php //foreach ($articles as $article): ?>
 <!--        <div>-->
 <!--            <h2>--><?php //echo $article->title; ?><!--</h2>-->

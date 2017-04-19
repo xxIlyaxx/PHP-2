@@ -6,7 +6,6 @@ use App\Controller;
 use App\Models\Article;
 use App\Logger;
 use App\Exceptions\NotFoundException;
-use App\Widgets\AdminDataTable;
 
 
 /**
@@ -23,10 +22,6 @@ class Admin extends Controller
     protected function actionIndex()
     {
         $this->view->articles = Article::findAll();
-        $this->view->dataTableWidget = new AdminDataTable(
-            $this->view->articles,
-            require __DIR__ . '/../Widgets/admin_data_table/functions.php'
-        );
         $this->view->display(__DIR__ . '/../../templates/admin/index.php');
     }
 
