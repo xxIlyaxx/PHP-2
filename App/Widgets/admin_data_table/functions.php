@@ -3,15 +3,19 @@
 use App\View;
 
 return [
-    function ($article) {
-        ob_start();
-        include __DIR__ . '/templates/content.php';
-        return ob_get_clean();
+    function (Article $article) {
+        return $article->id;
     },
 
-    function ($article) {
-        ob_start();
-        include __DIR__ . '/templates/actions.php';
-        return ob_get_clean();
+    function (Article $article) {
+        return $article->title;
+    },
+
+    function (Article $article) {
+        return $article->lead;
+    },
+
+    function (Article $article) {
+        return (null !== $article->author) ? 'Автор: ' . $article->author->name : 'Неизвестный автор';
     },
 ];
