@@ -3,15 +3,15 @@
 use App\View;
 
 return [
-    'content' => function ($article) {
-        $view = new View();
-        $view->article = $article;
-        return $view->render(__DIR__ . '/templates/content.php');
+    function ($article) {
+        ob_start();
+        include __DIR__ . '/templates/content.php';
+        return ob_get_clean();
     },
 
-    'actions' => function ($article) {
-        $view = new View();
-        $view->article = $article;
-        return $view->render(__DIR__ . '/templates/actions.php');
+    function ($article) {
+        ob_start();
+        include __DIR__ . '/templates/actions.php';
+        return ob_get_clean();
     },
 ];
