@@ -2,6 +2,8 @@
 
 namespace App\Widgets;
 
+use App\View;
+
 /**
  * Class AdminDataTable
  *
@@ -23,8 +25,9 @@ class AdminDataTable
 
     public function render()
     {
-        ob_start();
-        include __DIR__ . '/admin_data_table/templates/table.php';
-        return ob_get_clean();
+        $view = new View();
+        $view->rows = $this->rows;
+        $view->columns = $this->columns;
+        return $view->render(__DIR__ . '/admin_data_table/templates/table.php');
     }
 }
