@@ -1,6 +1,7 @@
 <?php
 
 use App\View;
+use App\Models\Article;
 
 return [
     function (Article $article) {
