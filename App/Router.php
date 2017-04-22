@@ -1,14 +1,20 @@
 <?php
 namespace App;
 
-use App\Exceptions\ForbiddenException;
-
+/**
+ * Class Router
+ *
+ * @package App
+ *
+ * @property string controller
+ * @property string action
+ * @property string controllerClassName
+ * @property string actionMethodName
+ */
 class Router
 {
     use Singleton;
-
-    public $controller;
-    public $action;
+    use GetSet;
 
     public function __construct()
     {
@@ -26,21 +32,7 @@ class Router
 
         $this->controller = $controllerName ?: 'Index';
         $this->action = $actionName ?: 'Index';
-    }
-
-    public function action()
-    {
-        $controllerClassName = 'App\Controllers\\' . $this->controller;
-        if (!class_exists($controllerClassName)) {
-            throw new ForbiddenException('Class ' . $this->controller . ' does not exist');
-        }
-
-        $controller = new $controllerClassName();
-        $action = 'action' . $this->action;
-        if (!method_exists($controller, $action)) {
-            throw new ForbiddenException('Method ' . $this->action . ' does not exists');
-        }
-
-        $controller->action($action);
+        $this->controllerClassName = 'App\Controllers\\' . $this->controller;
+        $this->actionMethodName = 'action' . $this->action;
     }
 }

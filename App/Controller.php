@@ -22,11 +22,12 @@ abstract class Controller
     /**
      * Метод - валидатор
      *
+     * @param $name
      * @return bool
      */
-    protected function access()
+    protected function access($name)
     {
-        return true;
+        return method_exists($this, $name);
     }
 
     /**
@@ -38,8 +39,8 @@ abstract class Controller
      */
     public function action(string $name)
     {
-        if (false === $this->access($name)) {
-            throw new ForbiddenException();
+        if (!$this->access($name)) {
+            $this->forbiddenError();
         }
         $this->$name();
     }
@@ -48,11 +49,10 @@ abstract class Controller
      * Отправляет страницу c сообщением об ошибке,
      * если не найдена запись в базе данных
      */
-    public static function notFoundError()
+    public function notFoundError()
     {
-        $view = new View();
         header('HTTP/1.1 404 Not Found', 404);
-        $view->display(__DIR__ . '/../templates/errors/not_found.php');
+        $this->view->display(__DIR__ . '/../templates/errors/not_found.php');
         exit();
     }
 
@@ -60,11 +60,10 @@ abstract class Controller
      * Отправляет страницу c сообщением об ошибке,
      * если запрошен некорректный путь
      */
-    public static function forbiddenError()
+    public function forbiddenError()
     {
-        $view = new View();
         header('HTTP/1.1 403 Forbidden', 403);
-        $view->display(__DIR__ . '/../templates/errors/forbidden.php');
+        $this->view->display(__DIR__ . '/../templates/errors/forbidden.php');
         exit();
     }
 
@@ -72,11 +71,10 @@ abstract class Controller
      * Отправляет страницу c сообщением об ошибке,
      * если была ошибка в базе данных
      */
-    public static function dbError()
+    public function dbError()
     {
-        $view = new View();
         header('HTTP/1.1 500 Internal Server Error', 500);
-        $view->display(__DIR__ . '/../templates/errors/db.php');
+        $this->view->display(__DIR__ . '/../templates/errors/db.php');
         exit();
     }
 }
