@@ -1,0 +1,32 @@
+[2017-04-25 16:36:40] Error: App\Exceptions\DbException: SQLSTATE[HY000] [1049] Unknown database 'php2' in F:\domains\php2.loc\App\Db.php:34
+Stack trace:
+#0 F:\domains\php2.loc\App\Singleton.php(18): App\Db->__construct()
+#1 F:\domains\php2.loc\App\Models\Model.php(32): App\Db::getInstance()
+#2 F:\domains\php2.loc\App\Models\Model.php(66): App\Models\Model::findAll()
+#3 F:\domains\php2.loc\App\Controllers\Index.php(23): App\Models\Model::findLast()
+#4 F:\domains\php2.loc\App\Controller.php(47): App\Controllers\Index->actionIndex()
+#5 F:\domains\php2.loc\index.php(18): App\Controller->action('Index')
+#6 {main}
+[2017-04-25 16:38:34] Error: App\Exceptions\DbException: SQLSTATE[HY000] [1049] Unknown database 'php2' in F:\domains\php2.loc\App\Db.php:34
+Stack trace:
+#0 F:\domains\php2.loc\App\Singleton.php(18): App\Db->__construct()
+#1 F:\domains\php2.loc\App\Models\Model.php(32): App\Db::getInstance()
+#2 F:\domains\php2.loc\App\Models\Model.php(66): App\Models\Model::findAll()
+#3 F:\domains\php2.loc\App\Controllers\Index.php(23): App\Models\Model::findLast()
+#4 F:\domains\php2.loc\App\Controller.php(47): App\Controllers\Index->actionIndex()
+#5 F:\domains\php2.loc\index.php(18): App\Controller->action('Index')
+#6 {main}
+[2017-04-25 16:42:47] Error: App\Exceptions\DbException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: No such host is known.  in F:\domains\php2.loc\App\Db.php:34
+Stack trace:
+#0 F:\domains\php2.loc\App\Singleton.php(18): App\Db->__construct()
+#1 F:\domains\php2.loc\App\Models\Model.php(32): App\Db::getInstance()
+#2 F:\domains\php2.loc\App\Models\Model.php(66): App\Models\Model::findAll()
+#3 F:\domains\php2.loc\App\Controllers\Index.php(23): App\Models\Model::findLast()
+#4 F:\domains\php2.loc\App\Controller.php(47): App\Controllers\Index->actionIndex()
+#5 F:\domains\php2.loc\index.php(18): App\Controller->action('Index')
+#6 {main}
+[2017-04-25 16:43:07] Error: App\Exceptions\NotFoundException: Not found record with given id in F:\domains\php2.loc\App\Controllers\Index.php:34
+Stack trace:
+#0 F:\domains\php2.loc\App\Controller.php(47): App\Controllers\Index->actionOne()
+#1 F:\domains\php2.loc\index.php(18): App\Controller->action('One')
+#2 {main}

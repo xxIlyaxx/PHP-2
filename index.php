@@ -4,23 +4,20 @@ require __DIR__ . '/autoload.php';
 require __DIR__ . '/vendor/autoload.php';
 
 use App\Router;
-use App\View;
+use App\Controllers\Errors;
 
 $router = Router::getInstance();
 
 if (!class_exists($router->controllerClassName)) {
-    $view = new View();
-    header('HTTP/1.1 403 Forbidden', 403);
-    $view->display(__DIR__ . '/../templates/errors/forbidden.php');
-    exit();
+    (new Errors())->action('ForbiddenError');
 }
 
 $controller = new $router->controllerClassName();
 
 try {
-    $controller->action($router->actionMethodName);
+    $controller->action($router->action);
 } catch (\App\Exceptions\DbException $e) {
-    $controller->dbError();
+    (new Errors())->action('DbError');
 } catch (\App\Exceptions\NotFoundException $e) {
-    $controller->notFoundError();
+    (new Errors())->action('NotFoundError');
 }
