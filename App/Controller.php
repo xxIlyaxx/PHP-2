@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Exceptions\ForbiddenException;
-use App\Controllers\Errors;
+use App\Controllers\ErrorController;
 
 /**
  * Class Controller
@@ -42,7 +42,7 @@ abstract class Controller
     {
         $method = 'action' . $name;
         if (!$this->access($method)) {
-            (new Errors())->action('ForbiddenError');
+            (new ErrorController())->action('ForbiddenError');
         }
         $this->$method();
     }

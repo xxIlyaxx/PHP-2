@@ -11,10 +11,10 @@ namespace App\Controllers;
 use App\Controller;
 
 /**
- * Class Errors
+ * Class ErrorController
  * @package App\Controllers
  */
-class Errors extends Controller
+class ErrorController extends Controller
 {
     /**
      * Отправляет страницу c сообщением об ошибке,
