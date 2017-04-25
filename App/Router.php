@@ -5,20 +5,11 @@ namespace App;
  * Class Router
  *
  * @package App
- *
- * @property string controller
- * @property string action
- * @property string controllerClassName
- * @property string actionMethodName
  */
 class Router
 {
-    use Singleton;
-    use GetSet;
-
-    public function __construct()
+    public function parse($uri)
     {
-        $uri = $_SERVER['REQUEST_URI'];
         $path = parse_url($uri, PHP_URL_PATH);
         $path = trim($path, '/');
 
@@ -30,9 +21,20 @@ class Router
         $actionName = implode($actionParts);
         $controllerName = implode('\\', $parts);
 
-        $this->controller = $controllerName ?: 'Index';
-        $this->action = $actionName ?: 'Index';
-        $this->controllerClassName = 'App\Controllers\\' . $this->controller;
-        $this->actionMethodName = 'action' . $this->action;
+        return [
+            'controller' => ($controllerName ?: 'Index'),
+            'action' => ($actionName ?: 'Index'),
+            'params' => $_GET,
+        ];
+    }
+
+    public function getController($uri)
+    {
+        return $this->parse($uri)['controller'];
+    }
+
+    public function getAction($uri)
+    {
+        return $this->parse($uri)['action'];
     }
 }

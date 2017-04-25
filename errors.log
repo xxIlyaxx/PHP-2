@@ -30,3 +30,8 @@ Stack trace:
 #0 F:\domains\php2.loc\App\Controller.php(47): App\Controllers\Index->actionOne()
 #1 F:\domains\php2.loc\index.php(18): App\Controller->action('One')
 #2 {main}
+[2017-04-25 17:46:12] Error: App\Exceptions\NotFoundException: Not found record with given id in F:\domains\php2.loc\App\Controllers\Index.php:34
+Stack trace:
+#0 F:\domains\php2.loc\App\Controller.php(47): App\Controllers\Index->actionOne()
+#1 F:\domains\php2.loc\index.php(20): App\Controller->action('One')
+#2 {main}

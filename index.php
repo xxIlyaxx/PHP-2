@@ -6,16 +6,18 @@ require __DIR__ . '/vendor/autoload.php';
 use App\Router;
 use App\Controllers\Errors;
 
-$router = Router::getInstance();
+$router = new Router();
+$parsedUri = $router->parse($_SERVER['REQUEST_URI']);
 
-if (!class_exists($router->controllerClassName)) {
+$controllerClassName = 'App\Controllers\\' . $parsedUri['controller'];
+if (!class_exists($controllerClassName)) {
     (new Errors())->action('ForbiddenError');
 }
 
-$controller = new $router->controllerClassName();
+$controller = new $controllerClassName();
 
 try {
-    $controller->action($router->action);
+    $controller->action($parsedUri['action']);
 } catch (\App\Exceptions\DbException $e) {
     (new Errors())->action('DbError');
 } catch (\App\Exceptions\NotFoundException $e) {

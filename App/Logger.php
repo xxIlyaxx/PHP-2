@@ -23,8 +23,7 @@ class Logger extends AbstractLogger
     }
 
     /**
-     * Записывает строку или данные
-     * об объекте исключения в лог-файл
+     * Производит запись в лог-файл
      *
      * @param mixed $level
      * @param string $message
